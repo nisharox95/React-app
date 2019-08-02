@@ -27,8 +27,8 @@
     }
 
   handleSubmit(values) {
-      console.log("Current State is: " + JSON.stringify(values));
-      alert("Current State is:" + JSON.stringify(values));
+    this.toggleModal();
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment)
     }
 
     render() {
@@ -56,8 +56,8 @@
           </Control.select>
           </Row>
           <Row className="form-group">
-            <Label htmlFor="yourname">Your Name</Label>
-              <Control.text model=".author" id="yourname" name="yourname"
+            <Label htmlFor="author">Your Name</Label>
+              <Control.text model=".author" id="author" name="author"
                   placeholder="Your Name"
                   className="form-control"
                   validators={{
@@ -77,7 +77,7 @@
           </Row>
           <Row className="form-group">
             <Label htmlFor="comment">Comment</Label>
-              <Control.textarea model=".message" id="message" name="message"
+              <Control.textarea model=".comment" id="comment" name="comment"
                   className="form-control"
                   rows="6"
               />
@@ -110,7 +110,7 @@
              );
       }
 
-      function RenderComments({comments}) {
+      function RenderComments({comments, addComment, dishId}) {
           if (comments != null)
             return(
               <div className="col-12 col-md-5 m-1">
@@ -127,7 +127,7 @@
               })
             }
             </ul>
-            <CommentForm />
+            <CommentForm dishId={dishId} addComment={addComment}/>
           </div>
           );
 
@@ -157,7 +157,9 @@
             </div>
               <div className="row">
              <RenderDish dish = {props.dish} />
-              <RenderComments comments = {props.comments} />
+              <RenderComments comments = {props.comments}
+              addComment={props.addComment}
+              dishId={props.dish.id} />
               </div>
               </div>
           );
